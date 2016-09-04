@@ -1,24 +1,27 @@
 var os = require('os');
 
-var totalMemory = Math.round(os.totalmem() / 1000000);
-var freeMemory = Math.round(os.freemem()/ 1000000);
 
-// console.log(os.hostname());
-// console.log(`PLATFORM: ${os.platform()}`);
-// console.log(`TOTAL RAM: ${totalMemory}MB`);
-// console.log(`IN USE RAM: ${totalMemory - freeMemory}MB`);
 
-var cpus = os.cpus();
+console.log(os.hostname());
+console.log(`PLATFORM: ${os.platform()}`);
 
-for(var i = 0, len = cpus.length; i < len; i++) {
-    console.log("CPU %s:", i);
-    var cpu = cpus[i], total = 0;
 
-    for(var type in cpu.times) {
-        total += cpu.times[type];
-    }
+setInterval(() => {
 
-    for(type in cpu.times) {
-        console.log("\t", type, Math.round(100 * cpu.times[type] / total));
-    }
-}
+    var totalMemory = Math.round(os.totalmem() / 1000000);
+    var freeMemory = Math.round(os.freemem() / 1000000);
+
+    console.log(`TOTAL MEMORY: ${totalMemory}MB`);
+    console.log(`MEMORY IN USE: ${totalMemory - freeMemory}MB`);
+}, 1000);
+
+
+
+// var osUtils = require('os-utils');
+
+// setInterval(() =>
+//     osUtils.cpuUsage(function (v) {
+//         console.log('CPU Usage (%): ' + v);
+
+//         // sent information to the server
+//     }), 1000);
