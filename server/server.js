@@ -10,14 +10,19 @@ server.listen(8000, () => {
 var io = socketio.listen(server);
 
 var clients = [];
-var web;
+var dashboard;
 
 io.sockets.on('connection', (socket) => {
 
     console.log('Connection accepted');
 
     socket.on('hostname', (hostname) => {
+        clients.push(socket);
         console.log(hostname);
+    });
+
+    socket.on('dashboard', (socket) => {
+        dashboard = socket;
     });
 
     socket.on('platform', (platform) => {
@@ -26,5 +31,9 @@ io.sockets.on('connection', (socket) => {
 
     socket.on('cpu', (usage) => {
         console.log(usage);
+
+        var id = socket.id;
+        //TODO dashboard does not exists yet
+        dashboard.emit('cpu', { id: usage });
     });
 });
