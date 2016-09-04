@@ -10,6 +10,7 @@ server.listen(8000, () => {
 var io = socketio.listen(server);
 
 var clients = [];
+var web;
 
 io.sockets.on('connection', (socket) => {
 
