@@ -21,8 +21,7 @@ server.listen(8000, () => {
 
 var io = socketio.listen(server);
 
-var clients = [];
-var dashboard;
+var dashboards = [];
 
 io.sockets.on('connection', (socket) => {
 
@@ -33,8 +32,8 @@ io.sockets.on('connection', (socket) => {
     });
 
     socket.on('dashboard', () => {
-        dashboard = socket;
-        console.log('dashboard is set')
+        console.log('Dashboard connected');
+        dashboards.push(socket);
     });
 
     socket.on('platform', (platform) => {
@@ -44,8 +43,10 @@ io.sockets.on('connection', (socket) => {
     socket.on('cpu', (usage) => {
         console.log(usage);
 
-        var id = socket.id;
-        //TODO dashboard does not exists yet        
-        dashboard.emit('cpu', usage);
+        if (dashboards) {
+            dashboards.forEach(function (dashboard) {
+                dashboard.emit('cpu', { id: socket.id, usage: usage });
+            });
+        }
     });
 });
