@@ -1,0 +1,13 @@
+{
+  "name": "client",
+  "version": "0.0.1",
+  "author": "ddyrcz",
+  "main": "app.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ddyrcz/Dashboard.git"
+  },
+  "dependencies": {
+    "socket.io-client": "^1.4.8"
+  }
+}

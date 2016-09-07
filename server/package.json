@@ -1,0 +1,14 @@
+{
+  "name": "server",
+  "version": "0.0.1",
+  "author": "ddyrcz",
+  "main": "server.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ddyrcz/Dashboard.git"
+  },
+  "dependencies": {
+    "mine": "^0.1.0",
+    "socket.io": "^1.4.8"
+  }
+}

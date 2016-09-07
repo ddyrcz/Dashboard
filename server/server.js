@@ -1,7 +1,19 @@
 var socketio = require('socket.io');
 var http = require('http');
+var statisFile = require('./lib/static_file');
 
-var server = http.createServer();
+var server = http.createServer((req, res) => {
+    var filePath = manageFilePath(req.url);
+    staticFile.serveStaticFile(filePath, res);
+});
+
+var manageFilePath = function (url) {
+    if (url === '/') {
+        return 'public/index.html';
+    } else {
+        return 'public' + url;
+    }
+}
 
 server.listen(8000, () => {
     console.log('Server is listining');
