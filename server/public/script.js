@@ -1,33 +1,44 @@
 var socket = io.connect();
 
-var bar = new ProgressBar.Line(container, {
-  strokeWidth: 4,
-  easing: 'easeInOut',
-  duration: 1400,
-  progress: 1,
-  color: '#FFEA82',
-  trailColor: '#eee',
-  trailWidth: 1,
-  svgStyle: {width: '100%', height: '100%'},
-  from: {color: '#FFEA82'},
-  to: {color: '#ED6A5A'},
-  step: (state, bar) => {
-    bar.path.setAttribute('stroke', state.color);
-  }
-});
+var getBar = function (id) {
+  return new ProgressBar.Line(id, {
+    strokeWidth: 4,
+    easing: 'easeInOut',
+    duration: 1400,
+    progress: 1,
+    color: '#FFEA82',
+    trailColor: '#eee',
+    trailWidth: 1,
+    svgStyle: { width: '100%', height: '100%' },
+    from: { color: '#00FF00' },
+    to: { color: '#FF0000' },
+    step: (state, bar) => {
+      bar.path.setAttribute('stroke', state.color);
+    }
+  });
+}
+
+var clients = {};
 
 $(document).ready(() => {
-    socket.emit('dashboard');
+  socket.emit('dashboard');
 
-    // socket.on('hostname', (data) => {        
-    //      $('#clients').append(`<li id='${data.id}'><div class='hostname'>${data.hostname}</div><div class='cpu'></div></li>`);
-    // });
+  socket.on('hostname', (data) => {
 
-    socket.on('cpu', (data) => {
-        // console.log(`#${data.id} .cpu`);
-        // $(`#${data.id} .cpu`).text(data.usage);    
+    var cpuId = `${data.id}cpu`;
+    $('#clients').append(`<li><div id='${data.id}hostname'>${data.hostname}</div><div id='${cpuId}'></div></li>`);
+    console.log(data);
 
-        bar.animate((data.usage/100), {duration:800});
-    });
+    console.log(cpuId);
+    clients[data.id] = getBar(cpuId);
+    
+  });
+
+  socket.on('cpu', (data) => {
+    // console.log(`#${data.id} .cpu`);
+    // $(`#${data.id} .cpu`).text(data.usage);
+            
+    //clients[data.id].animate((data.usage / 100), { duration: 800 });
+  });
 
 });
