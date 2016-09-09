@@ -1,7 +1,7 @@
 var socket = io.connect();
 
 var getBar = function (id) {
-  return new ProgressBar.Line(id, {
+  return new ProgressBar.Line(window[id], {
     strokeWidth: 4,
     easing: 'easeInOut',
     duration: 1400,
@@ -10,8 +10,8 @@ var getBar = function (id) {
     trailColor: '#eee',
     trailWidth: 1,
     svgStyle: { width: '100%', height: '100%' },
-    from: { color: '#00FF00' },
-    to: { color: '#FF0000' },
+    from: { color: '#096b00' },
+    to: { color: '#9f0505' },
     step: (state, bar) => {
       bar.path.setAttribute('stroke', state.color);
     }
@@ -24,21 +24,13 @@ $(document).ready(() => {
   socket.emit('dashboard');
 
   socket.on('hostname', (data) => {
-
-    var cpuId = `${data.id}cpu`;
-    $('#clients').append(`<li><div id='${data.id}hostname'>${data.hostname}</div><div id='${cpuId}'></div></li>`);
-    console.log(data);
-
-    console.log(cpuId);
+    var cpuId = `${data.id}-cpu`;    
+    $('#clients').append(`<li id='${data.id}' ><div id='${data.id}-hostname'>${data.hostname}</div><div id='${cpuId}'></div></li>`);        
     clients[data.id] = getBar(cpuId);
-    
   });
 
-  socket.on('cpu', (data) => {
-    // console.log(`#${data.id} .cpu`);
-    // $(`#${data.id} .cpu`).text(data.usage);
-            
-    //clients[data.id].animate((data.usage / 100), { duration: 800 });
+  socket.on('cpu', (data) => {    
+    clients[data.id].animate((data.usage / 100), { duration: 800 });
   });
 
 });
