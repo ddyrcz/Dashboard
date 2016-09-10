@@ -1,0 +1,74 @@
+body{
+    width: 100%;
+    height: 100%;   
+    background-color: #76497C;
+}
+
+.client{
+    width: 460px;
+    height: 290px;
+}
+
+.memwrapper{
+    float: left;
+    background-color: #9779A2;
+    height: 70%;
+    width: 61%;
+    margin-left: 2%;
+    margin-right: 2%;
+}
+
+.oswrapper{
+    background-color: #9779A2;
+    float: left;
+    height: 70%;
+    width: 31%;
+    margin-left: 2%;
+    margin-right: 2%;
+}
+
+.cpuwrapper{
+    background-color: #9779A2;
+    height: 26%;
+    width: 96%;
+    margin-left: 2%;
+    margin-right: 2px;
+    margin-top: 4%;
+    float: left;
+    
+}
+
+.cpu{
+    background-color: black;
+    margin: 0px auto;
+    margin-top: 3%;
+    margin-bottom: 5%;
+    width: 80%;
+    height:  60%;
+}
+
+.hostname{
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 5%;    
+    width: fit-content;
+    height: 30%;
+    font-size: 32px;
+    background-color: green;
+}
+
+.mem{
+    margin-left: auto;
+    margin-right: auto;
+    width: 70%;
+    background-color: red;
+    height: 55%;    
+}
+
+
+
+
+.os{
+
+}
+
