@@ -24,13 +24,26 @@ $(document).ready(() => {
   socket.emit('dashboard');
 
   socket.on('hostname', (data) => {
-    var cpuId = `${data.id}-cpu`;    
-    $('#clients').append(`<li id='${data.id}' ><div id='${data.id}-hostname'>${data.hostname}</div><div id='${cpuId}'></div></li>`);        
+    var cpuId = `${data.id}-cpu`;
+
+    var client = $(`<li id='${data.id}' ><div id='${data.id}-hostname'>${data.hostname}</div><div id='${cpuId}'></div></li>`)
+      .hide()
+      .fadeIn(1000);
+
+    $('#clients').append(client);
+
     clients[data.id] = getBar(cpuId);
   });
 
-  socket.on('cpu', (data) => {    
+  socket.on('cpu', (data) => {
     clients[data.id].animate((data.usage / 100), { duration: 800 });
   });
 
-});
+  socket.on('clientDisconnected', (id) => {
+    var id =`#${id}`; 
+    $(id).fadeOut(1000, () => {
+      $(id).remove();
+    });    
+  });
+
+})

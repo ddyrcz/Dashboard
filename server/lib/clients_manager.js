@@ -10,6 +10,14 @@ var sendToAll = function (event, message) {
     }
 }
 
+var getProperSocketId = function (socket) {
+    return socket.id.replace('/#', '');
+}
+
+var isClient = function (socket) {
+    return dashboards.indexOf(socket) == -1;
+}
+
 module.exports = function (server) {
     var io = socketio.listen(server);
 
@@ -18,7 +26,7 @@ module.exports = function (server) {
         console.log('Connection accepted');
 
         socket.on('hostname', (hostname) => {
-            sendToAll('hostname', { id: socket.id.replace('/#', ''), hostname: hostname });
+            sendToAll('hostname', { id: getProperSocketId(socket), hostname: hostname });
         });
 
         socket.on('dashboard', () => {
@@ -27,11 +35,17 @@ module.exports = function (server) {
         });
 
         socket.on('platform', (platform) => {
-            sendToAll('platform', { id: socket.id.replace('/#', ''), platform: platform });
+            sendToAll('platform', { id: getProperSocketId(socket), platform: platform });
         });
 
         socket.on('cpu', (usage) => {
-            sendToAll('cpu', { id: socket.id.replace('/#', ''), usage: usage });
+            sendToAll('cpu', { id: getProperSocketId(socket), usage: usage });
+        });
+
+        socket.on('disconnect', () => {
+            if (isClient(socket)) {
+                sendToAll('clientDisconnected', getProperSocketId(socket));
+            }
         });
     });
 }
