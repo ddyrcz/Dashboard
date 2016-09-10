@@ -2,11 +2,29 @@ body{
     width: 100%;
     height: 100%;   
     background-color: #76497C;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-style: italic;
+    font-weight: bold;
+    color: white;
+    
+}
+
+#clients{
+    width: 90%;
+    margin: auto;
+    margin-top: 5%;
+}
+
+li{
+    list-style-type: none;
+    float: left;    
 }
 
 .client{
     width: 460px;
     height: 290px;
+    margin-bottom: 70px;
+    margin-right: 70px;
 }
 
 .memwrapper{
@@ -34,17 +52,16 @@ body{
     margin-left: 2%;
     margin-right: 2px;
     margin-top: 4%;
-    float: left;
-    
+    float: left;        
 }
 
-.cpu{
-    background-color: black;
+.cpu{    
     margin: 0px auto;
-    margin-top: 3%;
+    margin-top: 2%;
     margin-bottom: 5%;
+    text-align: center;
     width: 80%;
-    height:  60%;
+    height:  30%;
 }
 
 .hostname{
@@ -52,23 +69,21 @@ body{
     margin-right: auto;
     margin-top: 5%;    
     width: fit-content;
-    height: 30%;
-    font-size: 32px;
-    background-color: green;
+    height: 20%;
+    font-size: 32px;    
+}
+
+.cputext{
+    margin-bottom: 2%;
 }
 
 .mem{
     margin-left: auto;
     margin-right: auto;
-    width: 70%;
-    background-color: red;
-    height: 55%;    
+    width: 80%;
+    height: 65%;    
 }
-
-
-
 
 .os{
-
+    
 }
-

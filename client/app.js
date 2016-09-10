@@ -24,6 +24,6 @@ socket.on("connect", function () {
 
     setInterval(() =>
         osUtils.cpuUsage(function (usage) {
-            socket.emit('cpu', Math.round(usage));
+            socket.emit('cpu', usage);
         }), 800);
 });
