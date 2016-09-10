@@ -20,7 +20,3 @@ var manageFilePath = function (url) {
 server.listen(8000, () => {
     console.log('Server is listining');
 });
-
-
-
-

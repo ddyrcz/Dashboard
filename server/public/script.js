@@ -1,6 +1,6 @@
 var socket = io.connect();
 
-var getBar = function (id) {
+var getCpuBar = function (id) {
   return new ProgressBar.Line(window[id], {
     strokeWidth: 4,
     easing: 'easeInOut',
@@ -18,13 +18,19 @@ var getBar = function (id) {
   });
 }
 
-var clients = {};
+var getMemBar = function (id) {
+  return undefined;
+}
+
+var cpuBar = {};
+var memBar = {};
 
 $(document).ready(() => {
   socket.emit('dashboard');
 
   socket.on('hostname', (data) => {
     var cpuId = `${data.id}-cpu`;
+    var memId = `${data.id}-mem`;
 
     var client = $(`<li id='${data.id}' ><div id='${data.id}-hostname'>${data.hostname}</div><div id='${cpuId}'></div></li>`)
       .hide()
@@ -32,11 +38,20 @@ $(document).ready(() => {
 
     $('#clients').append(client);
 
-    clients[data.id] = getBar(cpuId);
+    cpuBar[data.id] = getCpuBar(cpuId);
+    memBar[data.id] = getMemBar(memId);
+  });
+
+  socket.on('mem', (data) => {
+    var inUse = data.inUse;
+    var total = data.total;
+
+    memBar[data.id].animate(data.usage)
+
   });
 
   socket.on('cpu', (data) => {
-    clients[data.id].animate((data.usage / 100), { duration: 800 });
+    cpuBar[data.id].animate((data.usage));
   });
 
   socket.on('clientDisconnected', (id) => {
