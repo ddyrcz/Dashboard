@@ -1,6 +1,7 @@
 var socketio = require('socket.io');
 
 var dashboards = [];
+var clients = [];
 
 var sendToAll = function (event, message) {
     if (dashboards) {
@@ -15,7 +16,17 @@ var getProperSocketId = function (socket) {
 }
 
 var isClient = function (socket) {
-    return dashboards.indexOf(socket) == -1;
+    return clients.indexOf(socket) != -1;
+}
+
+var removeClient = function (socket) {
+    clients.splice(clients.indexOf(socket), 1);
+}
+
+var reportClients = function (dashboard, clients) {
+    clients.forEach((client) => {
+        dashboard.emit('hostname', { id: getProperSocketId(client), hostname: client.hostname });
+    });
 }
 
 module.exports = function (server) {
@@ -26,11 +37,13 @@ module.exports = function (server) {
         console.log('Connection accepted');
 
         socket.on('hostname', (hostname) => {
+            socket.hostname = hostname;
+            clients.push(socket);
             sendToAll('hostname', { id: getProperSocketId(socket), hostname: hostname });
         });
 
         socket.on('dashboard', () => {
-            console.log('Dashboard connected');
+            reportClients(socket, clients);
             dashboards.push(socket);
         });
 
@@ -44,6 +57,7 @@ module.exports = function (server) {
 
         socket.on('disconnect', () => {
             if (isClient(socket)) {
+                removeClient(socket);
                 sendToAll('clientDisconnected', getProperSocketId(socket));
             }
         });
