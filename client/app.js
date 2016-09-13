@@ -15,7 +15,7 @@ socket.on("connect", function () {
         var total = Math.round(osUtils.totalmem());
         var free = Math.round(osUtils.freemem());
 
-            socket.emit('mem', {total:total, free:free});
+        socket.emit('mem', { total: total, free: free });
 
     }, 800);
 

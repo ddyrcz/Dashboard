@@ -26,7 +26,10 @@ var getMemBar = function (id) {
     color: '#76497C',
     trailColor: 'white',
     trailWidth: 10,
-    svgStyle: null
+    svgStyle: null,
+    text: {
+      value: ''
+    }
   });
 }
 
@@ -75,11 +78,16 @@ $(document).ready(() => {
 
     cpuBar[data.id] = getCpuBar(cpuId);
     memBar[data.id] = getMemBar(memId);
+
+    memBar[data.id].text.style.fontSize = '15px';
+    memBar[data.id].text.style.color = '#fff';
   });
 
   socket.on('mem', (data) => {
     var total = data.mem.total;
     var free = data.mem.free;
+
+    memBar[data.id].setText(`${total - free} / ${total}`);
 
     var usage = (total - free) / total;
     console.log(usage);
