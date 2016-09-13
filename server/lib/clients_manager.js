@@ -55,6 +55,10 @@ module.exports = function (server) {
             sendToAll('cpu', { id: getProperSocketId(socket), usage: usage });
         });
 
+        socket.on('mem', (mem) => {
+            sendToAll('mem', { id: getProperSocketId(socket), mem: mem });
+        });
+
         socket.on('disconnect', () => {
             if (isClient(socket)) {
                 removeClient(socket);

@@ -19,7 +19,15 @@ var getCpuBar = function (id) {
 }
 
 var getMemBar = function (id) {
-  return undefined;
+  return new ProgressBar.SemiCircle(window[id], {
+    strokeWidth: 10,
+    easing: 'easeInOut',
+    duration: 1400,
+    color: '#76497C',
+    trailColor: 'white',
+    trailWidth: 10,
+    svgStyle: null
+  });
 }
 
 var getClientTemplate = function (id) {
@@ -28,7 +36,10 @@ var getClientTemplate = function (id) {
 				<div class='client'>
 					<div class='memwrapper'>
 						<div class='hostname'></div>
-						<div class='mem'></div>
+						<div class='mem'>
+              <div id='${id}-mem'>
+              </div>
+            </div>
 					</div>
 					<div class='oswrapper'></div>
 					<div class='cpuwrapper'>
@@ -62,28 +73,30 @@ $(document).ready(() => {
     $(`#${data.id} .hostname`).text(data.hostname);
     $(`#${data.id}-cpu`).css('height', '100%');
 
-    cpuBar[data.id] = getCpuBar(`${data.id}-cpu`);
-    //memBar[data.id] = getMemBar(memId);
+    cpuBar[data.id] = getCpuBar(cpuId);
+    memBar[data.id] = getMemBar(memId);
   });
 
   socket.on('mem', (data) => {
-    var inUse = data.inUse;
-    var total = data.total;
+    var total = data.mem.total;
+    var free = data.mem.free;
 
-    memBar[data.id].animate(data.usage)
+    var usage = (total - free) / total;
+    console.log(usage);
+    memBar[data.id].animate(usage);
 
   });
 
   socket.on('cpu', (data) => {
-    console.log(data.usage);
-    cpuBar[data.id].animate((data.usage));
+    //console.log(data.usage);
+    cpuBar[data.id].animate(data.usage);
   });
 
   socket.on('clientDisconnected', (id) => {
-    var id =`#${id}`; 
+    var id = `#${id}`;
     $(id).fadeOut(1000, () => {
       $(id).remove();
-    });    
+    });
   });
 
 });

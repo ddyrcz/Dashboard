@@ -8,19 +8,16 @@ socket.on("connect", function () {
 
     console.log('Connected to server');
 
-    socket.emit('hostname', os.hostname());
+    socket.emit('hostname', 'Dawid');
     socket.emit('platform', os.platform());
 
     setInterval(() => {
-        // var totalMemory = Math.round(osUtils.totalmem());
-        // var freeMemory = Math.round(osUtils.freemem());
+        var total = Math.round(osUtils.totalmem());
+        var free = Math.round(osUtils.freemem());
 
-        //console.log(`TOTAL MEMORY: ${totalMemory}MB`);
-        //console.log(`MEMORY IN USE: ${totalMemory - freeMemory}MB`);
+            socket.emit('mem', {total:total, free:free});
 
-        // sent information to the server        
-
-    }, 1000);
+    }, 800);
 
     setInterval(() =>
         osUtils.cpuUsage(function (usage) {
