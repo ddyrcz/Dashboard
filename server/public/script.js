@@ -1,5 +1,7 @@
 var socket = io.connect();
 
+const NA_TILES_COUNT = 4;
+
 var getCpuBar = function (id) {
   return new ProgressBar.Line(window[id], {
     strokeWidth: 1,
@@ -60,6 +62,22 @@ var getClientTemplate = function (id) {
 var cpuBar = {};
 var memBar = {};
 
+var clientCount = 0;
+
+function removeNaTile(count) {
+  if (count < NA_TILES_COUNT) {
+    $('#clients li:last').fadeOut(1000, () => {
+      $('#clients li:last').remove();
+    });
+  }
+}
+
+function appendNaTile(count){
+  if(count < NA_TILES_COUNT){
+    $('#clients').append('<li class="na"></li>');
+  }
+}
+
 $(document).ready(() => {
   socket.emit('dashboard');
 
@@ -67,11 +85,14 @@ $(document).ready(() => {
     var cpuId = `${data.id}-cpu`;
     var memId = `${data.id}-mem`;
 
+    clientCount += 1;
+
     var client = $(getClientTemplate(data.id))
       .hide()
       .fadeIn(1000);
 
-    $('#clients').append(client);
+    $('#clients').prepend(client);
+    removeNaTile(clientCount);
 
     $(`#${data.id} .hostname`).text(data.hostname);
     $(`#${data.id}-cpu`).css('height', '100%');
@@ -105,6 +126,9 @@ $(document).ready(() => {
     $(id).fadeOut(1000, () => {
       $(id).remove();
     });
+
+    clientCount -= 1;
+    appendNaTile(clientCount);
   });
 
 });

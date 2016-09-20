@@ -22,9 +22,18 @@ li{
 
 .client{
     width: 460px;
-    height: 290px;
+    height: 290px;        
     margin-bottom: 70px;
     margin-right: 70px;
+}
+
+.na{
+    width: 460px;
+    height: 290px;
+    background-color: #9779A2;
+    margin-bottom: 70px;
+    margin-right: 70px;
+        
 }
 
 .memwrapper{
