@@ -72,10 +72,15 @@ function removeNaTile(count) {
   }
 }
 
-function appendNaTile(count){
-  if(count < NA_TILES_COUNT){
-    $('#clients').append('<li class="na"></li>');
+function appendNaTile(count) {
+  if (count < NA_TILES_COUNT) {
+    $('#clients').append('<li class="na">N/A</li>');
   }
+}
+
+function styleMemoryBar(bar) {
+  memBar[data.id].text.style.fontSize = '13px';
+  memBar[data.id].text.style.color = '#fff';
 }
 
 $(document).ready(() => {
@@ -100,8 +105,7 @@ $(document).ready(() => {
     cpuBar[data.id] = getCpuBar(cpuId);
     memBar[data.id] = getMemBar(memId);
 
-    memBar[data.id].text.style.fontSize = '15px';
-    memBar[data.id].text.style.color = '#fff';
+    styleMemoryBar(memBar[data.id]);
   });
 
   socket.on('mem', (data) => {
@@ -116,8 +120,7 @@ $(document).ready(() => {
 
   });
 
-  socket.on('cpu', (data) => {
-    //console.log(data.usage);
+  socket.on('cpu', (data) => {    
     cpuBar[data.id].animate(data.usage);
   });
 
