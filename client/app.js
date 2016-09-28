@@ -8,7 +8,7 @@ socket.on("connect", function () {
 
     console.log('Connected to server');
 
-    socket.emit('hostname', 'Dawid');
+    socket.emit('hostname', os.hostname());
     socket.emit('platform', os.platform());
 
     setInterval(() => {

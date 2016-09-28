@@ -126,6 +126,10 @@ $(document).ready(() => {
     cpuBar[data.id].animate(data.usage);
   });
 
+  socket.on('platform', (data) => {
+    $(`#${data.id} .img`).attr('src', `img\\${data.platform}.png`);
+  });
+
   socket.on('clientDisconnected', (id) => {
     var id = `#${id}`;
     $(id).fadeOut(1000, () => {
@@ -135,5 +139,4 @@ $(document).ready(() => {
     clientCount -= 1;
     appendNaTile(clientCount);
   });
-
 });
