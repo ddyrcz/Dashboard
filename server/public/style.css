@@ -27,6 +27,17 @@ li{
     margin-right: 70px;
 }
 
+.img{
+    height: 45%;
+    width: 55%;
+    margin: auto;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);    
+    margin: auto;
+}
+
 .na{
     width: 460px;
     height: 290px;
@@ -55,6 +66,7 @@ li{
     width: 31%;
     margin-left: 2%;
     margin-right: 2%;
+    position: relative;
 }
 
 .cpuwrapper{

@@ -46,7 +46,9 @@ var getClientTemplate = function (id) {
               </div>
             </div>
 					</div>
-					<div class='oswrapper'></div>
+					<div class='oswrapper'>
+            <img class='img'/>
+          </div>
 					<div class='cpuwrapper'>
 						<div class='cpu'>
 							<div class='cputext'>CPU</div>
@@ -79,8 +81,8 @@ function appendNaTile(count) {
 }
 
 function styleMemoryBar(bar) {
-  memBar[data.id].text.style.fontSize = '13px';
-  memBar[data.id].text.style.color = '#fff';
+  bar.text.style.fontSize = '13px';
+  bar.text.style.color = '#fff';
 }
 
 $(document).ready(() => {
@@ -105,7 +107,7 @@ $(document).ready(() => {
     cpuBar[data.id] = getCpuBar(cpuId);
     memBar[data.id] = getMemBar(memId);
 
-    styleMemoryBar(memBar[data.id]);
+    styleMemoryBar(memBar[data.id]);    
   });
 
   socket.on('mem', (data) => {
