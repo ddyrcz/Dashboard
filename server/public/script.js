@@ -30,7 +30,19 @@ var getMemBar = function (id) {
     trailWidth: 10,
     svgStyle: null,
     text: {
-      value: ''
+      value: '',
+      alignToBottom: true,
+
+      style: {
+        'text-align': 'center',
+        color: '#fff',
+        fontSize: '1rem',
+        fontFamily: '"Raleway", Helvetica, sans-serif',
+        position: 'absolute',
+        left: '50%',
+        top: '50%',
+        padding: 0
+      }
     }
   });
 }
@@ -80,11 +92,6 @@ function appendNaTile(count) {
   }
 }
 
-function styleMemoryBar(bar) {
-  bar.text.style.fontSize = '13px';
-  bar.text.style.color = '#fff';
-}
-
 $(document).ready(() => {
   socket.emit('dashboard');
 
@@ -106,15 +113,13 @@ $(document).ready(() => {
 
     cpuBar[data.id] = getCpuBar(cpuId);
     memBar[data.id] = getMemBar(memId);
-
-    styleMemoryBar(memBar[data.id]);    
   });
 
   socket.on('mem', (data) => {
     var total = data.mem.total;
     var free = data.mem.free;
 
-    memBar[data.id].setText(`${total - free} / ${total}`);
+    memBar[data.id].setText(`RAM<BR>${total - free} / ${total}<BR><BR>`);
 
     var usage = (total - free) / total;
     console.log(usage);
@@ -122,7 +127,7 @@ $(document).ready(() => {
 
   });
 
-  socket.on('cpu', (data) => {    
+  socket.on('cpu', (data) => {
     cpuBar[data.id].animate(data.usage);
   });
 
