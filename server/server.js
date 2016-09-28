@@ -1,22 +1,12 @@
-var http = require('http'),
-    staticFile = require('./lib/static_file'),
+var express = require('express'),
+    app = express(),
+    server = require('http').Server(app),
     clientsManager = require('./lib/clients_manager');
 
-var server = http.createServer((req, res) => {
-    var filePath = manageFilePath(req.url);
-    staticFile.serveStaticFile(filePath, res);
-});
+app.use(express.static(__dirname + '/public'));
 
 clientsManager(server);
 
-var manageFilePath = function (url) {
-    if (url === '/') {
-        return 'public/index.html';
-    } else {
-        return 'public' + url;
-    }
-}
-
-server.listen(8000, () => {
+app.listen(8000, () => {
     console.log('Server is listining');
 });
