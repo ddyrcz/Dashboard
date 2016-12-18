@@ -7,6 +7,6 @@ app.use(express.static(__dirname + '/public'));
 
 clientsManager(server);
 
-app.listen(8000, () => {
+server.listen(8000, () => {
     console.log('Server is listining');
 });
